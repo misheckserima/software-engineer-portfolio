@@ -171,16 +171,3 @@ This project is open source and available under the [MIT License](LICENSE).
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<!-- Add this script to handle the demo button click -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const demoBtn = document.querySelector('a[href="#live-demo"]');
-    if (demoBtn) {
-      demoBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        // Replace with your actual demo URL when available
-        window.open('https://your-portfolio-demo.vercel.app', '_blank');
-      });
-    }
-  });
-</script>
