@@ -37,7 +37,7 @@ const ProjectCard = ({ title, description, image, tags, liveUrl, githubUrl, cate
         </div>
         
         <div className="flex gap-3">
-          {liveUrl && (
+          {liveUrl && title !== "Software Engineer Portfolio" && (
             <Button asChild variant="outline" size="sm" className="text-cyan-300 border-gray-600 hover:bg-gray-700 hover:text-cyan-200">
               <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                 <ExternalLink className="h-4 w-4" />

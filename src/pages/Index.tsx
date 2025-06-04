@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Code, Database, Globe, Server, Smartphone } from "lucide-react";
 
 // Import routing and state management
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 // Main Index page component
@@ -59,8 +59,8 @@ const Index = () => {
       image: "/projectpics/newversion.png",
       tags: ["HTML", "CSS", "React", "Node.js"],
       category: "Web Development",
-      liveUrl: "https://newversionhairsalon.com",
-      githubUrl: "https://github.com/username/hair-salon"
+      liveUrl: "https://new-version-hair-salon.vercel.app",
+      githubUrl: "https://github.com/misheckserima/new-version-hair-salon"
     },
     {
       id: 2,
@@ -69,8 +69,8 @@ const Index = () => {
       image: "/projectpics/aistockwise.png",
       tags: ["Python", "React", "Node.js", "MongoDB", "AI/ML"],
       category: "Web Development",
-      liveUrl: "https://aistock.example.com",
-      githubUrl: "https://github.com/username/ai-stock-system"
+      liveUrl: "https://ai-stock-management.vercel.app",
+      githubUrl: "https://github.com/misheckserima/ai-stock-management"
     },
     {
       id: 3,
@@ -79,8 +79,8 @@ const Index = () => {
       image: "/projectpics/airesume.png",
       tags: ["React", "OpenAI API", "Node.js", "MongoDB"],
       category: "Web Development",
-      liveUrl: "https://airesumebuilder.example.com",
-      githubUrl: "https://github.com/username/ai-resume-builder"
+      liveUrl: "https://ai-resume-builder-one-iota.vercel.app/",
+      githubUrl: "https://github.com/misheckserima/ai-resume-builder"
     },
     {
       id: 4,
@@ -89,17 +89,18 @@ const Index = () => {
       image: "/projectpics/portfolio.png",
       tags: ["React", "Vite", "TailwindCSS", "Lottie", "Framer Motion"],
       category: "Web Development",
-      githubUrl: "https://github.com/username/portfolio"
+      liveUrl: "https://software-engineer-portfolio-omega.vercel.app/",
+      githubUrl: "https://github.com/misheckserima/software-engineer-portfolio"
     },
     {
       id: 5,
-      title: "TechNov E-Commerce",
+      title: "Nova Tech E-Commerce",
       description: "A scalable e-commerce platform for selling tech gadgets and accessories online.",
       image: "/projectpics/technov.png",
       tags: ["React", "Node.js", "MongoDB", "Stripe", "TailwindCSS"],
       category: "Web Development",
-      liveUrl: "https://technov.example.com",
-      githubUrl: "https://github.com/username/technov-ecommerce"
+      liveUrl: "https://nova-tech-ecommerce.vercel.app",
+      githubUrl: "https://github.com/misheckserima/nova-tech-ecommerce"
     },
     {
       id: 6,
@@ -108,17 +109,30 @@ const Index = () => {
       image: "/projectpics/blog.png",
       tags: ["React", "Markdown", "Node.js", "TailwindCSS"],
       category: "Web Development",
-      liveUrl: "https://blog.example.com",
-      githubUrl: "https://github.com/username/tech-blog"
+      liveUrl: "https://software-engineer-blog.vercel.app",
+      githubUrl: "https://github.com/misheckserima/software-engineer-blog"
     }
   ];
 
   // Get first 3 projects for the home page
   const featuredProjects = allProjects.slice(0, 3);
+  
+  // Initialize navigation
+  const navigate = useNavigate();
 
   // Tech animation elements
   const codeSymbols = ['{ }', '</>', '=""', '()', '[]', '=>', '++', '/**/'];
   
+  // Function to handle resume download
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = '/resume/misheckresume.pdf';
+    link.download = 'Misheck_Serima_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Layout>
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-50 to-gray-100">
@@ -141,17 +155,48 @@ const Index = () => {
         </div>
         
         <Hero />
-        
-        {/* Featured Project Slideshow */}
-        <section className="section bg-white">
-          <div className="container mx-auto px-4 py-12">
-            <div className="mb-12 text-center">
-              <h2 className="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">Featured Work</h2>
-              <p className="text-slate-600 max-w-xl mx-auto">
-                Browse through my latest projects with video previews
-              </p>
+      
+      {/* Resume Download Section */}
+      <section className="py-16 bg-gradient-to-b from-white to-blue-50">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8 transform transition-all duration-300 hover:shadow-xl">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Interested in My Work?</h2>
+            <p className="text-lg text-gray-600 mb-8">
+              I'm currently open to new opportunities and would love to connect with potential employers, 
+              collaborators, or anyone interested in my work. Feel free to download my resume or reach out 
+              through the contact form.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Button 
+                onClick={handleDownloadResume}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+              >
+                Download Resume
+              </Button>
+              <Button 
+                asChild
+                variant="outline"
+                className="border-blue-600 text-blue-600 hover:bg-blue-50 hover:border-blue-700 hover:text-blue-700 px-8 py-6 text-lg font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
+              >
+                <Link to="/contact">
+                  Contact Me
+                </Link>
+              </Button>
             </div>
-            <ProjectSlideshow />
+          </div>
+        </div>
+      </section>
+      
+      {/* Featured Project Slideshow */}
+      <section className="section bg-white">
+        <div className="container mx-auto px-4 py-12">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">Featured Work</h2>
+            <p className="text-slate-600 max-w-xl mx-auto">
+              Browse through my latest projects with video previews
+            </p>
+          </div>
+          <ProjectSlideshow />
           </div>
         </section>
         
@@ -185,13 +230,9 @@ const Index = () => {
               ))}
             </div>
             
-            <div className="mt-10 text-center">
-              <Button asChild className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
-                <Link to="/skills">
-                  View all skills
-                </Link>
-              </Button>
-            </div>
+            <p className="mt-6 text-center text-gray-600">
+              Check out more skills in the Skills tab
+            </p>
           </div>
         </section>
         

@@ -14,17 +14,18 @@ const Projects = () => {
       image: "/projectpics/portfolio.png",
       tags: ["React", "Vite", "TailwindCSS", "Lottie", "Framer Motion"],
       category: "Web Development",
-      githubUrl: "https://github.com/username/portfolio"
+      liveUrl: "https://software-engineer-portfolio-omega.vercel.app/",
+      githubUrl: "https://github.com/misheckserima/software-engineer-portfolio"
     },
     {
       id: 2,
-      title: "TechNov E-Commerce",
+      title: "Nova Tech E-Commerce",
       description: "A scalable e-commerce platform for selling tech gadgets and accessories online.",
       image: "/projectpics/technov.png",
       tags: ["React", "Node.js", "MongoDB", "Stripe", "TailwindCSS"],
       category: "Web Development",
-      liveUrl: "https://technov.example.com",
-      githubUrl: "https://github.com/username/technov-ecommerce"
+      liveUrl: "https://nova-tech-ecommerce.vercel.app",
+      githubUrl: "https://github.com/misheckserima/nova-tech-ecommerce"
     },
     {
       id: 3,
@@ -33,8 +34,8 @@ const Projects = () => {
       image: "/projectpics/airesume.png",
       tags: ["React", "OpenAI API", "Node.js", "MongoDB"],
       category: "Web Development",
-      liveUrl: "https://airesumebuilder.example.com",
-      githubUrl: "https://github.com/username/ai-resume-builder"
+      liveUrl: "https://ai-resume-builder-one-iota.vercel.app/",
+      githubUrl: "https://github.com/misheckserima/ai-resume-builder"
     },
     {
       id: 4,
@@ -43,8 +44,8 @@ const Projects = () => {
       image: "/projectpics/newversion.png",
       tags: ["HTML", "CSS", "React", "Node.js"],
       category: "Web Development",
-      liveUrl: "https://newversionhairsalon.com",
-      githubUrl: "https://github.com/username/hair-salon"
+      liveUrl: "https://new-version-hair-salon.vercel.app",
+      githubUrl: "https://github.com/misheckserima/new-version-hair-salon"
     },
     {
       id: 5,
@@ -53,8 +54,8 @@ const Projects = () => {
       image: "/projectpics/aistockwise.png",
       tags: ["Python", "React", "Node.js", "MongoDB", "AI/ML"],
       category: "Web Development",
-      liveUrl: "https://aistock.example.com",
-      githubUrl: "https://github.com/username/ai-stock-system"
+      liveUrl: "https://ai-stock-management.vercel.app",
+      githubUrl: "https://github.com/misheckserima/ai-stock-management"
     },
     {
       id: 6,
@@ -63,8 +64,8 @@ const Projects = () => {
       image: "/projectpics/blog.png",
       tags: ["React", "Markdown", "Node.js", "TailwindCSS"],
       category: "Web Development",
-      liveUrl: "https://blog.example.com",
-      githubUrl: "https://github.com/username/tech-blog"
+      liveUrl: "https://software-engineer-blog.vercel.app",
+      githubUrl: "https://github.com/misheckserima/software-engineer-blog"
     },
   ];
   

@@ -140,16 +140,16 @@ Visit `http://localhost:5173` to view the application.
     <div style="width: 200px; height: 200px; border-radius: 50%; border: 4px solid #4ECDC4; padding: 4px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);">
       <img src="/public/screenshots/profile.jpg" alt="Developer Profile" style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease-in-out;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
     </div>
-    <h2 style="color: #f8fafc; margin-top: 20px; font-size: 2em;">Your Name</h2>
+    <h2 style="color: #f8fafc; margin-top: 20px; font-size: 2em;">Misheck Serima</h2>
     <p style="color: #94a3b8; margin-top: 10px; font-size: 1.1em;">Full Stack Developer</p>
     <div style="margin-top: 20px; display: flex; gap: 15px;">
-      <a href="https://github.com/yourusername" target="_blank" style="color: #94a3b8; font-size: 1.5em; transition: color 0.3s ease;" onmouseover="this.style.color='#4ECDC4'" onmouseout="this.style.color='#94a3b8'">
+      <a href="https://github.com/misheckserima" target="_blank" style="color: #94a3b8; font-size: 1.5em; transition: color 0.3s ease;" onmouseover="this.style.color='#4ECDC4'" onmouseout="this.style.color='#94a3b8'">
         <i class="fab fa-github"></i>
       </a>
-      <a href="https://linkedin.com/in/yourusername" target="_blank" style="color: #94a3b8; font-size: 1.5em; transition: color 0.3s ease;" onmouseover="this.style.color='#4ECDC4'" onmouseout="this.style.color='#94a3b8'">
+      <a href="https://linkedin.com/in/misheckserima" target="_blank" style="color: #94a3b8; font-size: 1.5em; transition: color 0.3s ease;" onmouseover="this.style.color='#4ECDC4'" onmouseout="this.style.color='#94a3b8'">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="mailto:your.email@example.com" style="color: #94a3b8; font-size: 1.5em; transition: color 0.3s ease;" onmouseover="this.style.color='#4ECDC4'" onmouseout="this.style.color='#94a3b8'">
+      <a href="mailto:serimaahsur@gmail.com" style="color: #94a3b8; font-size: 1.5em; transition: color 0.3s ease;" onmouseover="this.style.color='#4ECDC4'" onmouseout="this.style.color='#94a3b8'">
         <i class="fas fa-envelope"></i>
       </a>
     </div>
