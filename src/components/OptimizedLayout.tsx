@@ -32,10 +32,17 @@ export default function OptimizedLayout({ children }: OptimizedLayoutProps) {
   const location = useLocation();
 
   const handleNavClick = useCallback((path: string) => {
-    setLoading(true);
-    setMobileNavOpen(false);
-    navigate(path);
-  }, [navigate]);
+    if (location.pathname !== path) {
+      setLoading(true);
+      setMobileNavOpen(false);
+      navigate(path);
+      // Reset loading state after navigation is complete
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [navigate, location.pathname]);
 
   const handleLogoClick = useCallback(() => {
     navigate('/');
