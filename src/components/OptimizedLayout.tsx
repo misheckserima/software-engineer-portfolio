@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate, NavLink, useLocation } from 'react-router-dom';
-import { Github, Linkedin, Mail, X, Menu } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AdminLogin from '@/components/AdminLogin';
 
@@ -25,23 +25,17 @@ const navLinks: NavLinkItem[] = [
 export default function OptimizedLayout({ children }: OptimizedLayoutProps) {
   const [loading, setLoading] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleNavClick = useCallback((path: string) => {
     setLoading(true);
-    setMobileMenuOpen(false);
     navigate(path);
   }, [navigate]);
 
   const handleLogoClick = useCallback(() => {
     navigate('/');
   }, [navigate]);
-
-  const toggleMobileMenu = useCallback(() => {
-    setMobileMenuOpen(prev => !prev);
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100">
@@ -104,77 +98,6 @@ export default function OptimizedLayout({ children }: OptimizedLayoutProps) {
             </a>
           </div>
 
-          {/* Mobile menu button - Only show on mobile */}
-          <div className="md:hidden">
-            <button
-              onClick={toggleMobileMenu}
-              className="p-3 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-slate-200 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 active:scale-95"
-              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-              style={{
-                width: '48px',
-                height: '48px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              {mobileMenuOpen ? (
-                <X size={28} strokeWidth={2.5} className="text-slate-800" />
-              ) : (
-                <Menu size={28} strokeWidth={2.5} className="text-slate-800" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        <div 
-          className={`md:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-lg transform ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-all duration-300 ease-in-out`}
-          style={{
-            WebkitOverflowScrolling: 'touch',
-          }}
-        >
-          <div className="flex flex-col h-full px-6 py-8 space-y-2 overflow-y-auto">
-            {navLinks.map((link) => {
-              const Icon = link.icon;
-              return (
-                <button
-                  key={link.path}
-                  onClick={() => handleNavClick(link.path)}
-                  className={`flex items-center w-full text-left text-lg font-medium py-4 px-5 rounded-xl transition-all duration-200 ${
-                    window.location.pathname === link.path 
-                      ? 'bg-blue-50 text-blue-700' 
-                      : 'text-slate-800 hover:bg-slate-50'
-                  }`}
-                  style={{
-                    minHeight: '56px',
-                    WebkitTapHighlightColor: 'transparent'
-                  }}
-                >
-                  {Icon && <Icon className="mr-4 h-5 w-5 flex-shrink-0" />}
-                  <span>{link.label}</span>
-                </button>
-              );
-            })}
-            
-            {/* Social links at the bottom */}
-            <div className="mt-auto pt-6 border-t border-slate-100">
-              <div className="flex justify-center space-x-6">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" 
-                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors">
-                  <Github size={24} />
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors">
-                  <Linkedin size={24} />
-                </a>
-                <a href="mailto:contact@example.com" 
-                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors">
-                  <Mail size={24} />
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
       </header>
 
