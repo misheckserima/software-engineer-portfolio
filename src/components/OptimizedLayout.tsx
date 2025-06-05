@@ -70,11 +70,11 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
   }, [mobileMenuOpen]);
 
   return (
-    <div className={`min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100 relative transition-all duration-500 ${
+    <div className={`min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100 relative ${
       mobileMenuOpen ? 'overflow-hidden h-screen' : ''
     }`}>
-      {/* Add these styles for the blob animation */}
-      <style jsx global>{`
+      {/* Global styles */}
+      <style>{`
         @keyframes blob {
           0% { transform: translate(0px, 0px) scale(1); }
           33% { transform: translate(30px, -50px) scale(1.1); }
@@ -173,27 +173,25 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
 
         {/* Mobile Menu Overlay */}
         <div 
-          className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-all duration-500 ease-in-out z-40 ${
+          className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 z-[100] ${
             mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           onClick={toggleMobileMenu}
           style={{
-            transitionProperty: 'opacity, backdrop-filter',
-            willChange: 'opacity, backdrop-filter'
+            transitionProperty: 'opacity',
+            willChange: 'opacity'
           }}
         />
 
         {/* Mobile Menu Content */}
         <div 
-          className={`mobile-menu-container fixed inset-y-0 left-0 z-50 w-2/3 h-full transition-all duration-500 ease-out ${
-            mobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full pointer-events-none'
+          className={`fixed inset-y-0 left-0 z-[101] w-2/3 h-full transition-transform duration-300 ease-out ${
+            mobileMenuOpen ? 'translate-x-0' : '-translate-x-full pointer-events-none'
           }`}
           style={{
             maxWidth: '400px',
             minWidth: '280px',
             boxShadow: '4px 0 25px -5px rgba(0, 0, 0, 0.2)',
-            transitionProperty: 'transform, opacity',
-            willChange: 'transform, opacity'
           }}
         >
           <div className="bg-white h-full flex flex-col overflow-hidden relative">
