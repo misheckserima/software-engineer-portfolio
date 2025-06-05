@@ -1,8 +1,10 @@
 import { useState, useCallback } from 'react';
-import { useNavigate, NavLink, useLocation } from 'react-router-dom';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Github, Linkedin, Mail, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AdminLogin from '@/components/AdminLogin';
+import { MobileNav } from './MobileNav';
+import { cn } from '@/lib/utils';
 
 interface OptimizedLayoutProps {
   children: React.ReactNode;
@@ -25,11 +27,13 @@ const navLinks: NavLinkItem[] = [
 export default function OptimizedLayout({ children }: OptimizedLayoutProps) {
   const [loading, setLoading] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleNavClick = useCallback((path: string) => {
     setLoading(true);
+    setMobileNavOpen(false);
     navigate(path);
   }, [navigate]);
 
@@ -52,25 +56,37 @@ export default function OptimizedLayout({ children }: OptimizedLayoutProps) {
         </div>
       )}
 
-      <header className="border-b sticky top-0 bg-white/95 backdrop-blur z-10 text-slate-700 shadow-lg shadow-slate-200/50 border-slate-200">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <button
-            onClick={handleLogoClick}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
-            aria-label="Home"
-          >
-            <img 
-              src="/profileimages/2pallogo.png" 
-              alt="Logo" 
-              className="h-8 w-8 rounded-full object-cover border-2 border-blue-200"
-              width={32}
-              height={32}
-              loading="lazy"
-            />
-            <span className="font-bold text-xl font-fira text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 hidden sm:inline">
-              MS.dev
-            </span>
-          </button>
+      <header className="border-b sticky top-0 bg-white/95 backdrop-blur z-40 text-slate-700 shadow-lg shadow-slate-200/50 border-slate-200">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            {/* Mobile menu button */}
+            <button
+              type="button"
+              className="md:hidden p-2 rounded-md text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+              onClick={() => setMobileNavOpen(true)}
+              aria-label="Open navigation menu"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+            
+            <button
+              onClick={handleLogoClick}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
+              aria-label="Home"
+            >
+              <img 
+                src="/profileimages/2pallogo.png" 
+                alt="Logo" 
+                className="h-8 w-8 rounded-full object-cover border-2 border-blue-200"
+                width={32}
+                height={32}
+                loading="lazy"
+              />
+              <span className="font-bold text-xl font-fira text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 hidden sm:inline">
+                MS.dev
+              </span>
+            </button>
+          </div>
 
           {/* Desktop Navigation - Always visible on desktop, hidden on mobile */}
           <nav className="hidden md:flex space-x-6">
@@ -104,6 +120,14 @@ export default function OptimizedLayout({ children }: OptimizedLayoutProps) {
       <main className="flex-1">
         {children}
       </main>
+      
+      {/* Mobile Navigation */}
+      <MobileNav 
+        navLinks={navLinks}
+        isOpen={mobileNavOpen}
+        onClose={() => setMobileNavOpen(false)}
+        onNavClick={handleNavClick}
+      />
 
       <footer className="border-t py-8 bg-white/80 border-slate-200">
         <div className="container mx-auto px-4">
