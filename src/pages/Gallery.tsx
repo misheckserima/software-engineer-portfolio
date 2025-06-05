@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -86,8 +86,19 @@ const Gallery = () => {
   };
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-12 bg-gradient-to-br from-slate-50 to-gray-100 min-h-screen">
+    <div className="min-h-screen bg-white py-12">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-12"
+        >
+          <h1 className="text-4xl font-bold mb-4 gradient-text inline-block">Gallery</h1>
+          <p className="text-lg text-gray-600 max-w-2xl">
+            A collection of moments and memories from my journey as a software engineer.
+          </p>
+        </motion.div>
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
             My Gallery
@@ -215,7 +226,7 @@ const Gallery = () => {
           </div>
         </Card>
       </div>
-    </Layout>
+    </div>
   );
 };
 

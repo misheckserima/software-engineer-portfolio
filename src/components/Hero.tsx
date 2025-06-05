@@ -17,14 +17,32 @@ const Hero = () => {
     <div className="relative min-h-screen text-slate-800 overflow-hidden">
       {/* Background with image and custom gradient overlay */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-[url('/profileimages/background.png')] bg-cover bg-center"
-          style={{
-            opacity: 0.08,
-            filter: 'brightness(0.8) contrast(1.2)'
-          }}
-        />
+        {/* Optimized Background Image */}
+        <picture>
+          <source 
+            srcSet="/profileimages/background.webp 1x, /profileimages/background@2x.webp 2x" 
+            type="image/webp" 
+          />
+          <source 
+            srcSet="/profileimages/background.jpg 1x, /profileimages/background@2x.jpg 2x" 
+            type="image/jpeg" 
+          />
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: 'url(/profileimages/background.jpg)',
+              opacity: 0.08,
+              filter: 'brightness(0.8) contrast(1.2)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              imageRendering: 'crisp-edges',
+              willChange: 'transform',
+              transform: 'translateZ(0)'
+            }}
+            aria-hidden="true"
+          />
+        </picture>
         
         {/* Horizontal Lines Effect */}
         <div className="absolute inset-0 opacity-20">

@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import Layout from "@/components/Layout";
+import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -77,9 +77,19 @@ const Contact = () => {
   ];
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-8 gradient-text inline-block">Contact Me</h1>
+    <div className="min-h-screen bg-white py-12">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-12"
+        >
+          <h1 className="text-4xl font-bold mb-4 gradient-text inline-block">Get In Touch</h1>
+          <p className="text-lg text-gray-600 max-w-2xl">
+            Have a question or want to work together? Send me a message and I'll get back to you as soon as possible.
+          </p>
+        </motion.div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Contact Form */}
@@ -179,7 +189,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

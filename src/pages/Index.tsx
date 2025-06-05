@@ -1,5 +1,4 @@
 // Import layout and component dependencies
-import Layout from "@/components/Layout";
 import Hero from "@/components/Hero";
 import SkillCard from "@/components/SkillCard";
 import ProjectCard from "@/components/ProjectCard";
@@ -134,7 +133,7 @@ const Index = () => {
   };
 
   return (
-    <Layout>
+    <div className="min-h-screen bg-white">
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-50 to-gray-100">
         {/* Animated tech background elements */}
         <div className="absolute inset-0 opacity-10 overflow-hidden pointer-events-none">
@@ -331,7 +330,7 @@ const Index = () => {
           </div>
         </section>
       </div>
-    </Layout>
+    </div>
   );
 };
 

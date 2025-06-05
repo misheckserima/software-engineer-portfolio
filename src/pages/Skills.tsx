@@ -1,5 +1,5 @@
-
-import Layout from "@/components/Layout";
+import { motion } from "framer-motion";
+import { skills } from "@/lib/data";
 import SkillCard from "@/components/SkillCard";
 import { Progress } from "@/components/ui/progress";
 import { Code, Database, File, Github, Globe, Server, Settings, Smartphone, Users } from "lucide-react";
@@ -72,9 +72,19 @@ const Skills = () => {
   ];
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-8 gradient-text inline-block">My Skills</h1>
+    <div className="min-h-screen bg-white py-12">
+      <div className="container mx-auto px-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-12"
+        >
+          <h1 className="text-4xl font-bold mb-4 gradient-text inline-block">My Skills</h1>
+          <p className="text-lg text-gray-600 max-w-2xl">
+            Technologies and tools I work with to create amazing web experiences
+          </p>
+        </motion.div>
         
         {/* Skill Categories */}
         <section className="mb-16">
@@ -129,7 +139,7 @@ const Skills = () => {
           </div>
         </section>
       </div>
-    </Layout>
+    </div>
   );
 };
 

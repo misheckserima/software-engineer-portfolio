@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Layout from "@/components/Layout";
+import { motion } from "framer-motion";
 import ProjectCard from "@/components/ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -73,40 +73,42 @@ const Projects = () => {
   const filteredProjects = allProjects;
 
   return (
-    <Layout>
-      {/* Main container */}
-      <div className="min-h-screen bg-white py-12">
-        <div className="container mx-auto px-4">
-          {/* Page title */}
+    <div className="min-h-screen bg-white py-12">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
           <h1 className="text-4xl font-bold mb-8 text-gray-900 inline-block">My Projects</h1>
-          
-          {/* Show how many projects are displayed */}
-          <div className="mb-8 text-center">
-            <Badge variant="outline" className="text-sm font-normal text-gray-600 border-gray-200">
-              Showing {filteredProjects.length} projects
-            </Badge>
-          </div>
-          
-          {/* Grid of project cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project, index) => (
-              <div key={project.id} className="animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
-                <ProjectCard
-                  key={project.id}
-                  title={project.title}
-                  description={project.description}
-                  image={project.image}
-                  tags={project.tags}
-                  liveUrl={project.liveUrl}
-                  githubUrl={project.githubUrl}
-                  category={project.category}
-                />
-              </div>
-            ))}
-          </div>
+        </motion.div>
+        
+        {/* Show how many projects are displayed */}
+        <div className="mb-8 text-center">
+          <Badge variant="outline" className="text-sm font-normal text-gray-600 border-gray-200">
+            Showing {filteredProjects.length} projects
+          </Badge>
+        </div>
+        
+        {/* Grid of project cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProjects.map((project, index) => (
+            <div key={project.id} className="animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
+              <ProjectCard
+                title={project.title}
+                description={project.description}
+                image={project.image}
+                tags={project.tags}
+                liveUrl={project.liveUrl}
+                githubUrl={project.githubUrl}
+                category={project.category}
+              />
+            </div>
+          ))}
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

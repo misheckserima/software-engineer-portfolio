@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Code, Database, File, Github } from "lucide-react";
@@ -42,9 +42,19 @@ const About = () => {
   ];
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-8 gradient-text inline-block">About Me</h1>
+    <div className="min-h-screen bg-white py-12">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-12"
+        >
+          <h1 className="text-4xl font-bold mb-4 gradient-text inline-block">About Me</h1>
+          <p className="text-lg text-gray-600 max-w-3xl">
+            Passionate software engineer with expertise in building modern web applications and solving complex problems.
+          </p>
+        </motion.div>
         
         {/* Bio Section */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 mb-16">
@@ -150,7 +160,7 @@ const About = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 
