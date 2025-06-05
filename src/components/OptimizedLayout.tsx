@@ -133,48 +133,64 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
         <div 
           className={`md:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-lg transform ${
             mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-          } transition-all duration-300 ease-in-out pt-24 pb-16 overflow-y-auto`}
+          } transition-all duration-300 ease-in-out overflow-y-auto`}
           style={{
             WebkitOverflowScrolling: 'touch',
+            paddingTop: '6rem', // Add more padding at the top
+            paddingBottom: '5rem', // Add padding at the bottom
           }}
         >
-          <div className="flex flex-col h-full px-6 space-y-2">
+          <div className="flex flex-col h-full px-4 space-y-3">
             {navLinks.map((link) => {
               const Icon = link.icon;
               return (
                 <button
                   key={link.path}
                   onClick={() => handleNavClick(link.path)}
-                  className={`flex items-center w-full text-left text-lg font-medium py-4 px-5 rounded-xl transition-all duration-200 ${
+                  className={`flex items-center w-full text-left text-base font-medium py-3 px-4 rounded-lg transition-all duration-200 ${
                     window.location.pathname === link.path 
                       ? 'bg-blue-50 text-blue-700' 
                       : 'text-slate-800 hover:bg-slate-50'
                   }`}
                   style={{
-                    minHeight: '56px',
-                    WebkitTapHighlightColor: 'transparent'
+                    minHeight: '48px',
+                    WebkitTapHighlightColor: 'transparent',
                   }}
                 >
-                  {Icon && <Icon className="mr-4 h-5 w-5 flex-shrink-0" />}
+                  {Icon && <Icon className="mr-3 h-5 w-5 flex-shrink-0" />}
                   <span>{link.label}</span>
                 </button>
               );
             })}
             
             {/* Social links at the bottom */}
-            <div className="mt-6 pt-6 border-t border-slate-100">
-              <div className="flex justify-center space-x-6">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" 
-                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors">
-                  <Github size={24} />
+            <div className="mt-auto pt-6 pb-8 border-t border-slate-100">
+              <p className="text-center text-sm text-slate-500 mb-4">Connect with me</p>
+              <div className="flex justify-center space-x-8">
+                <a 
+                  href="https://github.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors"
+                  aria-label="GitHub"
+                >
+                  <Github size={22} />
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors">
-                  <Linkedin size={24} />
+                <a 
+                  href="https://linkedin.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={22} />
                 </a>
-                <a href="mailto:contact@example.com" 
-                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors">
-                  <Mail size={24} />
+                <a 
+                  href="mailto:contact@example.com" 
+                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors"
+                  aria-label="Email"
+                >
+                  <Mail size={22} />
                 </a>
               </div>
             </div>
