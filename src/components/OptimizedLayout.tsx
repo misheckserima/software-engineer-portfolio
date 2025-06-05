@@ -110,18 +110,20 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
           <div className="md:hidden">
             <button
               onClick={toggleMobileMenu}
-              className="p-3 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-slate-200 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 active:scale-95"
+              className="p-3 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-slate-200 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 active:scale-95 z-50"
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               style={{
                 width: '48px',
                 height: '48px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                position: 'relative',
+                zIndex: 50
               }}
             >
               {mobileMenuOpen ? (
-                <X size={28} strokeWidth={2.5} className="text-slate-800" />
+                <X size={28} strokeWidth={2.5} className="text-white" />
               ) : (
                 <Menu size={28} strokeWidth={2.5} className="text-slate-800" />
               )}
@@ -129,15 +131,28 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
           </div>
         </div>
 
+        {/* Mobile menu overlay */}
+        {mobileMenuOpen && (
+          <div 
+            className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-30 transition-opacity duration-300"
+            onClick={toggleMobileMenu}
+            style={{
+              opacity: mobileMenuOpen ? 1 : 0,
+              pointerEvents: mobileMenuOpen ? 'auto' : 'none',
+            }}
+          />
+        )}
+
         {/* Mobile menu */}
         <div 
-          className={`md:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-lg transform ${
+          className={`md:hidden fixed inset-0 z-40 bg-white transform ${
             mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-          } transition-all duration-300 ease-in-out overflow-y-auto`}
+          } transition-all duration-300 ease-in-out flex flex-col`}
           style={{
             WebkitOverflowScrolling: 'touch',
-            paddingTop: '6rem', // Add more padding at the top
-            paddingBottom: '5rem', // Add padding at the bottom
+            width: '85%',
+            maxWidth: '320px',
+            boxShadow: '4px 0 20px rgba(0, 0, 0, 0.15)',
           }}
         >
           <div className="flex flex-col h-full px-4 space-y-3">
@@ -158,7 +173,7 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
                   }}
                 >
                   {Icon && <Icon className="mr-3 h-5 w-5 flex-shrink-0" />}
-                  <span>{link.label}</span>
+                  <span className="text-slate-800">{link.label}</span>
                 </button>
               );
             })}
