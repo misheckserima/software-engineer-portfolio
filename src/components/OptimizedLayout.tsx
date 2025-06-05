@@ -131,10 +131,10 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
           </div>
         </div>
 
-        {/* Mobile menu overlay */}
+        {/* Mobile menu overlay with blur effect */}
         {mobileMenuOpen && (
           <div 
-            className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-30 transition-opacity duration-300"
+            className="md:hidden fixed inset-0 bg-black/70 backdrop-blur-md z-40 transition-all duration-300"
             onClick={toggleMobileMenu}
             style={{
               opacity: mobileMenuOpen ? 1 : 0,
@@ -145,17 +145,37 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
 
         {/* Mobile menu */}
         <div 
-          className={`md:hidden fixed inset-0 z-40 bg-white transform ${
+          className={`md:hidden fixed inset-y-0 left-0 z-50 bg-white transform ${
             mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-          } transition-all duration-300 ease-in-out flex flex-col`}
+          } transition-all duration-300 ease-in-out flex flex-col w-4/5 max-w-xs`}
           style={{
             WebkitOverflowScrolling: 'touch',
-            width: '85%',
-            maxWidth: '320px',
-            boxShadow: '4px 0 20px rgba(0, 0, 0, 0.15)',
+            boxShadow: '4px 0 30px rgba(0, 0, 0, 0.2)',
           }}
         >
-          <div className="flex flex-col h-full px-4 space-y-3">
+          {/* Menu header with logo and close button */}
+          <div className="flex items-center justify-between p-4 border-b border-slate-100">
+            <div className="flex items-center space-x-2">
+              <img 
+                src="/profileimages/2pallogo.png" 
+                alt="Logo" 
+                className="h-8 w-8 rounded-full object-cover border-2 border-blue-200"
+                width={32}
+                height={32}
+              />
+              <span className="font-bold text-lg font-fira text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                MS.dev
+              </span>
+            </div>
+            <button
+              onClick={toggleMobileMenu}
+              className="p-2 rounded-full hover:bg-slate-100 transition-colors"
+              aria-label="Close menu"
+            >
+              <X size={24} strokeWidth={2} className="text-slate-600" />
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto py-4 px-4 space-y-2">
             {navLinks.map((link) => {
               const Icon = link.icon;
               return (
