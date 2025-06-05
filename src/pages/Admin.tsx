@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import Layout from '@/components/Layout';
+import OptimizedLayout from '@/components/OptimizedLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Users, Globe, MapPin, Calendar, TrendingUp } from 'lucide-react';
