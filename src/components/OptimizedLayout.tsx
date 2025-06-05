@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { Menu, X, Github, Linkedin, Mail, GalleryHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
