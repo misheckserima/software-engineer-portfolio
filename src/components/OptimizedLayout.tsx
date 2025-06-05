@@ -44,6 +44,31 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
     setMobileMenuOpen(prev => !prev);
   }, []);
 
+  // Close menu when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const menu = document.querySelector('.mobile-menu-container');
+      const button = document.querySelector('.mobile-menu-button');
+      
+      if (menu && button && !menu.contains(target) && !button.contains(target)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <div className={`min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100 relative ${
       mobileMenuOpen ? 'overflow-hidden h-screen' : ''
@@ -108,11 +133,11 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
             </a>
           </div>
 
-          {/* Mobile menu button - Only show on mobile */}
+          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={toggleMobileMenu}
-              className="p-3 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-slate-200 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 active:scale-95 z-50"
+              className="mobile-menu-button p-3 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-slate-200 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 active:scale-95 z-50"
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               style={{
                 width: '48px',
@@ -120,12 +145,10 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                position: 'relative',
-                zIndex: 50
               }}
             >
               {mobileMenuOpen ? (
-                <X size={28} strokeWidth={2.5} className="text-white" />
+                <X size={28} strokeWidth={2.5} className="text-slate-800" />
               ) : (
                 <Menu size={28} strokeWidth={2.5} className="text-slate-800" />
               )}
@@ -133,97 +156,100 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
           </div>
         </div>
 
-        {/* Mobile menu overlay with blur effect */}
+        {/* Mobile Menu Overlay */}
         <div 
-          className={`md:hidden fixed inset-0 bg-black/80 backdrop-blur-md transition-all duration-300 ${
-            mobileMenuOpen ? 'opacity-100 z-[100]' : 'opacity-0 -z-50 pointer-events-none'
+          className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 z-40 ${
+            mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           onClick={toggleMobileMenu}
         />
 
-        {/* Mobile menu */}
+        {/* Mobile Menu Content */}
         <div 
-          className={`md:hidden fixed inset-y-0 left-0 z-[110] bg-white transform ${
-            mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-          } transition-transform duration-300 ease-in-out flex flex-col w-4/5 max-w-xs`}
-          style={{
-            WebkitOverflowScrolling: 'touch',
-            boxShadow: '4px 0 30px rgba(0, 0, 0, 0.3)',
-          }}
+          className={`mobile-menu-container fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-300 ${
+            mobileMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+          }`}
         >
-          {/* Menu header with logo and close button */}
-          <div className="flex items-center justify-between p-4 border-b border-slate-100">
-            <div className="flex items-center space-x-2">
-              <img 
-                src="/profileimages/2pallogo.png" 
-                alt="Logo" 
-                className="h-8 w-8 rounded-full object-cover border-2 border-blue-200"
-                width={32}
-                height={32}
-              />
-              <span className="font-bold text-lg font-fira text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                MS.dev
-              </span>
+          <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all duration-300">
+            {/* Menu Header */}
+            <div className="sticky top-0 bg-white z-10 p-4 border-b border-slate-100 flex justify-between items-center">
+              <div className="flex items-center space-x-3">
+                <img 
+                  src="/profileimages/2pallogo.png"
+                  alt="Logo"
+                  className="h-10 w-10 rounded-full object-cover border-2 border-blue-200"
+                  width={40}
+                  height={40}
+                />
+                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  MS.dev
+                </span>
+              </div>
+              <button
+                onClick={toggleMobileMenu}
+                className="p-2 rounded-full hover:bg-slate-100 transition-colors"
+                aria-label="Close menu"
+              >
+                <X size={24} className="text-slate-600" />
+              </button>
             </div>
-            <button
-              onClick={toggleMobileMenu}
-              className="p-2 rounded-full hover:bg-slate-100 transition-colors"
-              aria-label="Close menu"
-            >
-              <X size={24} strokeWidth={2} className="text-slate-600" />
-            </button>
-          </div>
-          <div className="flex-1 overflow-y-auto py-4 px-4 space-y-2">
-            {navLinks.map((link) => {
-              const Icon = link.icon;
-              return (
-                <button
-                  key={link.path}
-                  onClick={() => handleNavClick(link.path)}
-                  className={`flex items-center w-full text-left text-base font-medium py-3 px-4 rounded-lg transition-all duration-200 ${
-                    window.location.pathname === link.path 
-                      ? 'bg-blue-50 text-blue-700' 
-                      : 'text-slate-800 hover:bg-slate-50'
-                  }`}
-                  style={{
-                    minHeight: '48px',
-                    WebkitTapHighlightColor: 'transparent',
-                  }}
-                >
-                  {Icon && <Icon className="mr-3 h-5 w-5 flex-shrink-0" />}
-                  <span className="text-slate-800">{link.label}</span>
-                </button>
-              );
-            })}
-            
-            {/* Social links at the bottom */}
-            <div className="mt-auto pt-6 pb-8 border-t border-slate-100">
+
+            {/* Menu Items */}
+            <div className="p-4">
+              <nav className="space-y-2">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.path}
+                    onClick={() => handleNavClick(link.path)}
+                    className={`w-full flex items-center px-4 py-3 rounded-lg transition-all duration-200 ${
+                      window.location.pathname === link.path
+                        ? 'bg-blue-50 text-blue-700 font-medium'
+                        : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    {link.icon && (
+                      <link.icon 
+                        className={`mr-3 h-5 w-5 ${
+                          window.location.pathname === link.path 
+                            ? 'text-blue-600' 
+                            : 'text-slate-500'
+                        }`} 
+                      />
+                    )}
+                    <span>{link.label}</span>
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            {/* Social Links */}
+            <div className="p-6 pt-2 border-t border-slate-100">
               <p className="text-center text-sm text-slate-500 mb-4">Connect with me</p>
-              <div className="flex justify-center space-x-8">
+              <div className="flex justify-center space-x-6">
                 <a 
                   href="https://github.com" 
                   target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors"
+                  rel="noopener noreferrer"
+                  className="text-slate-600 hover:text-blue-600 transition-colors"
                   aria-label="GitHub"
                 >
-                  <Github size={22} />
+                  <Github size={24} />
                 </a>
                 <a 
                   href="https://linkedin.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors"
+                  className="text-slate-600 hover:text-blue-600 transition-colors"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin size={22} />
+                  <Linkedin size={24} />
                 </a>
                 <a 
                   href="mailto:contact@example.com" 
-                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors"
+                  className="text-slate-600 hover:text-blue-600 transition-colors"
                   aria-label="Email"
                 >
-                  <Mail size={22} />
+                  <Mail size={24} />
                 </a>
               </div>
             </div>
