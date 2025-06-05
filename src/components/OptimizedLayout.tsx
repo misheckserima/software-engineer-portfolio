@@ -70,9 +70,24 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
   }, [mobileMenuOpen]);
 
   return (
-    <div className={`min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100 relative ${
+    <div className={`min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100 relative transition-all duration-500 ${
       mobileMenuOpen ? 'overflow-hidden h-screen' : ''
     }`}>
+      {/* Add these styles for the blob animation */}
+      <style jsx global>{`
+        @keyframes blob {
+          0% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+      `}</style>
       {/* Loading overlay */}
       {loading && (
         <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex items-center justify-center">
@@ -158,21 +173,37 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
 
         {/* Mobile Menu Overlay */}
         <div 
-          className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 z-40 ${
+          className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-all duration-500 ease-in-out z-40 ${
             mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           onClick={toggleMobileMenu}
+          style={{
+            transitionProperty: 'opacity, backdrop-filter',
+            willChange: 'opacity, backdrop-filter'
+          }}
         />
 
         {/* Mobile Menu Content */}
         <div 
-          className={`mobile-menu-container fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-300 ${
-            mobileMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+          className={`mobile-menu-container fixed inset-y-0 left-0 z-50 w-2/3 h-full transition-all duration-500 ease-out ${
+            mobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full pointer-events-none'
           }`}
+          style={{
+            maxWidth: '400px',
+            minWidth: '280px',
+            boxShadow: '4px 0 25px -5px rgba(0, 0, 0, 0.2)',
+            transitionProperty: 'transform, opacity',
+            willChange: 'transform, opacity'
+          }}
         >
-          <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all duration-300">
+          <div className="bg-white h-full flex flex-col overflow-hidden relative">
+            {/* Decorative elements */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute -right-32 -top-32 w-64 h-64 bg-blue-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+              <div className="absolute -left-16 -bottom-16 w-64 h-64 bg-purple-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+            </div>
             {/* Menu Header */}
-            <div className="sticky top-0 bg-white z-10 p-4 border-b border-slate-100 flex justify-between items-center">
+            <div className="sticky top-0 bg-white/80 backdrop-blur-sm z-10 p-4 border-b border-slate-100 flex justify-between items-center">
               <div className="flex items-center space-x-3">
                 <img 
                   src="/profileimages/2pallogo.png"
@@ -195,28 +226,28 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
             </div>
 
             {/* Menu Items */}
-            <div className="p-4">
-              <nav className="space-y-2">
+            <div className="p-4 flex-1 overflow-y-auto relative z-10">
+              <nav className="space-y-1">
                 {navLinks.map((link) => (
                   <button
                     key={link.path}
                     onClick={() => handleNavClick(link.path)}
-                    className={`w-full flex items-center px-4 py-3 rounded-lg transition-all duration-200 ${
+                    className={`group w-full flex items-center px-4 py-3 rounded-lg transition-all duration-300 transform hover:translate-x-2 ${
                       window.location.pathname === link.path
-                        ? 'bg-blue-50 text-blue-700 font-medium'
-                        : 'text-slate-700 hover:bg-slate-50'
+                        ? 'bg-gradient-to-r from-blue-50 to-blue-50/50 text-blue-700 font-medium shadow-sm border-l-4 border-blue-500'
+                        : 'text-slate-700 hover:bg-slate-50/70 border-l-4 border-transparent'
                     }`}
                   >
                     {link.icon && (
-                      <link.icon 
-                        className={`mr-3 h-5 w-5 ${
-                          window.location.pathname === link.path 
-                            ? 'text-blue-600' 
-                            : 'text-slate-500'
-                        }`} 
-                      />
+                      <span className={`p-1.5 mr-3 rounded-lg transition-colors duration-300 ${
+                        window.location.pathname === link.path 
+                          ? 'bg-blue-100 text-blue-600' 
+                          : 'bg-slate-100 group-hover:bg-slate-200 text-slate-600'
+                      }`}>
+                        <link.icon className="h-5 w-5" />
+                      </span>
                     )}
-                    <span>{link.label}</span>
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">{link.label}</span>
                   </button>
                 ))}
               </nav>
