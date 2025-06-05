@@ -73,19 +73,11 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
     <div className={`min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100 relative ${
       mobileMenuOpen ? 'overflow-hidden h-screen' : ''
     }`}>
-      {/* Global styles */}
+      {/* Simple styles for the mobile menu */}
       <style>{`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
       `}</style>
       {/* Loading overlay */}
@@ -172,113 +164,92 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
         </div>
 
         {/* Mobile Menu Overlay */}
-        <div 
-          className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 z-[100] ${
-            mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-          }`}
-          onClick={toggleMobileMenu}
-          style={{
-            transitionProperty: 'opacity',
-            willChange: 'opacity'
-          }}
-        />
+        {mobileMenuOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40"
+            onClick={toggleMobileMenu}
+          />
+        )}
 
         {/* Mobile Menu Content */}
         <div 
-          className={`fixed inset-y-0 left-0 z-[101] w-2/3 h-full transition-transform duration-300 ease-out ${
-            mobileMenuOpen ? 'translate-x-0' : '-translate-x-full pointer-events-none'
+          className={`fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${
+            mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
-          style={{
-            maxWidth: '400px',
-            minWidth: '280px',
-            boxShadow: '4px 0 25px -5px rgba(0, 0, 0, 0.2)',
-          }}
         >
-          <div className="bg-white h-full flex flex-col overflow-hidden relative">
-            {/* Decorative elements */}
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute -right-32 -top-32 w-64 h-64 bg-blue-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-              <div className="absolute -left-16 -bottom-16 w-64 h-64 bg-purple-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-            </div>
+          <div className="h-full flex flex-col">
             {/* Menu Header */}
-            <div className="sticky top-0 bg-white/80 backdrop-blur-sm z-10 p-4 border-b border-slate-100 flex justify-between items-center">
-              <div className="flex items-center space-x-3">
+            <div className="p-4 border-b border-slate-200 flex justify-between items-center">
+              <div className="flex items-center space-x-2">
                 <img 
                   src="/profileimages/2pallogo.png"
                   alt="Logo"
-                  className="h-10 w-10 rounded-full object-cover border-2 border-blue-200"
-                  width={40}
-                  height={40}
+                  className="h-8 w-8 rounded-full"
                 />
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  MS.dev
-                </span>
+                <span className="font-medium">Menu</span>
               </div>
-              <button
+              <button 
                 onClick={toggleMobileMenu}
-                className="p-2 rounded-full hover:bg-slate-100 transition-colors"
+                className="p-1 rounded-full hover:bg-slate-100"
                 aria-label="Close menu"
               >
-                <X size={24} className="text-slate-600" />
+                <X className="h-5 w-5 text-slate-500" />
               </button>
             </div>
 
             {/* Menu Items */}
-            <div className="p-4 flex-1 overflow-y-auto relative z-10">
-              <nav className="space-y-1">
-                {navLinks.map((link) => (
-                  <button
-                    key={link.path}
-                    onClick={() => handleNavClick(link.path)}
-                    className={`group w-full flex items-center px-4 py-3 rounded-lg transition-all duration-300 transform hover:translate-x-2 ${
-                      window.location.pathname === link.path
-                        ? 'bg-gradient-to-r from-blue-50 to-blue-50/50 text-blue-700 font-medium shadow-sm border-l-4 border-blue-500'
-                        : 'text-slate-700 hover:bg-slate-50/70 border-l-4 border-transparent'
-                    }`}
-                  >
-                    {link.icon && (
-                      <span className={`p-1.5 mr-3 rounded-lg transition-colors duration-300 ${
+            <nav className="flex-1 overflow-y-auto p-2">
+              {navLinks.map((link) => (
+                <button
+                  key={link.path}
+                  onClick={() => handleNavClick(link.path)}
+                  className={`w-full text-left px-4 py-3 rounded-md flex items-center space-x-3 ${
+                    window.location.pathname === link.path
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  {link.icon && (
+                    <link.icon 
+                      className={`h-5 w-5 ${
                         window.location.pathname === link.path 
-                          ? 'bg-blue-100 text-blue-600' 
-                          : 'bg-slate-100 group-hover:bg-slate-200 text-slate-600'
-                      }`}>
-                        <link.icon className="h-5 w-5" />
-                      </span>
-                    )}
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">{link.label}</span>
-                  </button>
-                ))}
-              </nav>
-            </div>
+                          ? 'text-blue-500' 
+                          : 'text-slate-400'
+                      }`} 
+                    />
+                  )}
+                  <span>{link.label}</span>
+                </button>
+              ))}
+            </nav>
 
             {/* Social Links */}
-            <div className="p-6 pt-2 border-t border-slate-100">
-              <p className="text-center text-sm text-slate-500 mb-4">Connect with me</p>
-              <div className="flex justify-center space-x-6">
-                <a 
-                  href="https://github.com" 
-                  target="_blank" 
+            <div className="p-4 border-t border-slate-200">
+              <div className="flex justify-center space-x-4">
+                <a
+                  href="https://github.com/yourusername"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-600 hover:text-blue-600 transition-colors"
+                  className="text-slate-400 hover:text-slate-600"
                   aria-label="GitHub"
                 >
-                  <Github size={24} />
+                  <Github className="h-5 w-5" />
                 </a>
-                <a 
-                  href="https://linkedin.com" 
-                  target="_blank" 
+                <a
+                  href="https://linkedin.com/in/yourusername"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-600 hover:text-blue-600 transition-colors"
+                  className="text-slate-400 hover:text-slate-600"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin size={24} />
+                  <Linkedin className="h-5 w-5" />
                 </a>
-                <a 
-                  href="mailto:contact@example.com" 
-                  className="text-slate-600 hover:text-blue-600 transition-colors"
+                <a
+                  href="mailto:your.email@example.com"
+                  className="text-slate-400 hover:text-slate-600"
                   aria-label="Email"
                 >
-                  <Mail size={24} />
+                  <Mail className="h-5 w-5" />
                 </a>
               </div>
             </div>
