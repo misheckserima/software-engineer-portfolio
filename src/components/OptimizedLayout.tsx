@@ -129,19 +129,20 @@ export default function OptimizedLayout({ children }: OptimizedLayoutProps) {
 
         {/* Mobile menu */}
         <div 
-          className={`md:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-lg transform ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-all duration-300 ease-in-out pt-24 pb-16 overflow-y-auto h-full`}
+          className={`md:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-lg transform ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-all duration-300 ease-in-out`}
           style={{
             WebkitOverflowScrolling: 'touch',
           }}
         >
-          <div className="flex flex-col h-full px-6 space-y-2">
+          <div className="flex flex-col h-full px-6 py-8 space-y-2 overflow-y-auto">
             {navLinks.map((link) => {
+              const Icon = link.icon;
               return (
                 <button
                   key={link.path}
                   onClick={() => handleNavClick(link.path)}
                   className={`flex items-center w-full text-left text-lg font-medium py-4 px-5 rounded-xl transition-all duration-200 ${
-                    location.pathname === link.path 
+                    window.location.pathname === link.path 
                       ? 'bg-blue-50 text-blue-700' 
                       : 'text-slate-800 hover:bg-slate-50'
                   }`}
@@ -150,13 +151,14 @@ export default function OptimizedLayout({ children }: OptimizedLayoutProps) {
                     WebkitTapHighlightColor: 'transparent'
                   }}
                 >
-                  {link.label}
+                  {Icon && <Icon className="mr-4 h-5 w-5 flex-shrink-0" />}
+                  <span>{link.label}</span>
                 </button>
               );
             })}
             
             {/* Social links at the bottom */}
-            <div className="mt-6 pt-6 border-t border-slate-100">
+            <div className="mt-auto pt-6 border-t border-slate-100">
               <div className="flex justify-center space-x-6">
                 <a href="https://github.com" target="_blank" rel="noopener noreferrer" 
                   className="p-2 text-slate-600 hover:text-blue-600 transition-colors">
