@@ -45,7 +45,9 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100">
+    <div className={`min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100 relative ${
+      mobileMenuOpen ? 'overflow-hidden h-screen' : ''
+    }`}>
       {/* Loading overlay */}
       {loading && (
         <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex items-center justify-center">
@@ -133,20 +135,20 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
 
         {/* Mobile menu overlay with blur effect */}
         <div 
-          className={`md:hidden fixed inset-0 bg-black/70 backdrop-blur-md transition-opacity duration-300 ${
-            mobileMenuOpen ? 'opacity-100 z-50' : 'opacity-0 -z-50 pointer-events-none'
+          className={`md:hidden fixed inset-0 bg-black/80 backdrop-blur-md transition-all duration-300 ${
+            mobileMenuOpen ? 'opacity-100 z-[100]' : 'opacity-0 -z-50 pointer-events-none'
           }`}
           onClick={toggleMobileMenu}
         />
 
         {/* Mobile menu */}
         <div 
-          className={`md:hidden fixed inset-y-0 left-0 z-[60] bg-white transform ${
+          className={`md:hidden fixed inset-y-0 left-0 z-[110] bg-white transform ${
             mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
           } transition-transform duration-300 ease-in-out flex flex-col w-4/5 max-w-xs`}
           style={{
             WebkitOverflowScrolling: 'touch',
-            boxShadow: '4px 0 30px rgba(0, 0, 0, 0.2)',
+            boxShadow: '4px 0 30px rgba(0, 0, 0, 0.3)',
           }}
         >
           {/* Menu header with logo and close button */}
@@ -229,7 +231,9 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
         </div>
       </header>
 
-      <main className="flex-1">
+      <main className={`flex-1 transition-opacity duration-300 ${
+        mobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}>
         {children}
       </main>
 
