@@ -1,85 +1,50 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
-import { Menu, X, Github, Linkedin, Mail, GalleryHorizontal } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
+import { Github, Linkedin, Mail, X, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AdminLogin from '@/components/AdminLogin';
 
-type LayoutProps = {
+interface OptimizedLayoutProps {
   children: React.ReactNode;
-};
+}
 
-const OptimizedLayout = ({ children }: LayoutProps) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showAdminLogin, setShowAdminLogin] = useState(false);
+interface NavLinkItem {
+  label: string;
+  path: string;
+}
+
+const navLinks: NavLinkItem[] = [
+  { label: 'Home', path: '/' },
+  { label: 'About', path: '/about' },
+  { label: 'Skills', path: '/skills' },
+  { label: 'Projects', path: '/projects' },
+  { label: 'Gallery', path: '/gallery' },
+  { label: 'Contact', path: '/contact' },
+];
+
+export default function OptimizedLayout({ children }: OptimizedLayoutProps) {
   const [loading, setLoading] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-
-  const navLinks = [
-    { label: 'Home', path: '/', icon: null },
-    { label: 'About', path: '/about', icon: null },
-    { label: 'Skills', path: '/skills', icon: null },
-    { label: 'Projects', path: '/projects', icon: null },
-    { label: 'Gallery', path: '/gallery', icon: GalleryHorizontal },
-    { label: 'Contact', path: '/contact', icon: null },
-  ];
-
-  const handleLogoClick = useCallback(() => {
-    setShowAdminLogin(true);
-  }, []);
-
-  const handleAdminLoginSuccess = useCallback(() => {
-    navigate('/admin');
-  }, [navigate]);
+  const location = useLocation();
 
   const handleNavClick = useCallback((path: string) => {
     setLoading(true);
-    setTimeout(() => {
-      navigate(path);
-      setLoading(false);
-      setMobileMenuOpen(false);
-    }, 300); // Reduced from 1500ms to 300ms for better UX
+    setMobileMenuOpen(false);
+    navigate(path);
+  }, [navigate]);
+
+  const handleLogoClick = useCallback(() => {
+    navigate('/');
   }, [navigate]);
 
   const toggleMobileMenu = useCallback(() => {
     setMobileMenuOpen(prev => !prev);
   }, []);
 
-  // Close menu when clicking outside
-  React.useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const menu = document.querySelector('.mobile-menu-container');
-      const button = document.querySelector('.mobile-menu-button');
-      
-      if (menu && button && !menu.contains(target) && !button.contains(target)) {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-
-    return () => {
-      document.body.style.overflow = 'auto';
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [mobileMenuOpen]);
-
   return (
-    <div className={`min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100 relative ${
-      mobileMenuOpen ? 'overflow-hidden h-screen' : ''
-    }`}>
-      {/* Simple styles for the mobile menu */}
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-      `}</style>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100">
       {/* Loading overlay */}
       {loading && (
         <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex items-center justify-center">
@@ -121,7 +86,6 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
                 onClick={() => handleNavClick(link.path)}
                 className="nav-link flex items-center gap-2 hover:text-blue-600 transition-colors cursor-pointer"
               >
-                {link.icon && <link.icon className="w-4 h-4" />}
                 {link.label}
               </button>
             ))}
@@ -140,18 +104,18 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
             </a>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button - Only show on mobile */}
           <div className="md:hidden">
             <button
               onClick={toggleMobileMenu}
-              className="mobile-menu-button p-3 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-slate-200 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 active:scale-95 z-50"
+              className="p-3 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-slate-200 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 active:scale-95"
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               style={{
                 width: '48px',
                 height: '48px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
             >
               {mobileMenuOpen ? (
@@ -163,93 +127,48 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
           </div>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        {mobileMenuOpen && (
-          <div 
-            className="fixed inset-0 bg-black/50 z-40"
-            onClick={toggleMobileMenu}
-          />
-        )}
-
-        {/* Mobile Menu Content */}
+        {/* Mobile menu */}
         <div 
-          className={`fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${
-            mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
+          className={`md:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-lg transform ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-all duration-300 ease-in-out pt-24 pb-16 overflow-y-auto h-full`}
+          style={{
+            WebkitOverflowScrolling: 'touch',
+          }}
         >
-          <div className="h-full flex flex-col">
-            {/* Menu Header */}
-            <div className="p-4 border-b border-slate-200 flex justify-between items-center">
-              <div className="flex items-center space-x-2">
-                <img 
-                  src="/profileimages/2pallogo.png"
-                  alt="Logo"
-                  className="h-8 w-8 rounded-full"
-                />
-                <span className="font-medium">Menu</span>
-              </div>
-              <button 
-                onClick={toggleMobileMenu}
-                className="p-1 rounded-full hover:bg-slate-100"
-                aria-label="Close menu"
-              >
-                <X className="h-5 w-5 text-slate-500" />
-              </button>
-            </div>
-
-            {/* Menu Items */}
-            <nav className="flex-1 overflow-y-auto p-2">
-              {navLinks.map((link) => (
+          <div className="flex flex-col h-full px-6 space-y-2">
+            {navLinks.map((link) => {
+              return (
                 <button
                   key={link.path}
                   onClick={() => handleNavClick(link.path)}
-                  className={`w-full text-left px-4 py-3 rounded-md flex items-center space-x-3 ${
-                    window.location.pathname === link.path
-                      ? 'bg-blue-50 text-blue-700'
-                      : 'text-slate-700 hover:bg-slate-50'
+                  className={`flex items-center w-full text-left text-lg font-medium py-4 px-5 rounded-xl transition-all duration-200 ${
+                    location.pathname === link.path 
+                      ? 'bg-blue-50 text-blue-700' 
+                      : 'text-slate-800 hover:bg-slate-50'
                   }`}
+                  style={{
+                    minHeight: '56px',
+                    WebkitTapHighlightColor: 'transparent'
+                  }}
                 >
-                  {link.icon && (
-                    <link.icon 
-                      className={`h-5 w-5 ${
-                        window.location.pathname === link.path 
-                          ? 'text-blue-500' 
-                          : 'text-slate-400'
-                      }`} 
-                    />
-                  )}
-                  <span>{link.label}</span>
+                  {link.label}
                 </button>
-              ))}
-            </nav>
-
-            {/* Social Links */}
-            <div className="p-4 border-t border-slate-200">
-              <div className="flex justify-center space-x-4">
-                <a
-                  href="https://github.com/yourusername"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-slate-600"
-                  aria-label="GitHub"
-                >
-                  <Github className="h-5 w-5" />
+              );
+            })}
+            
+            {/* Social links at the bottom */}
+            <div className="mt-6 pt-6 border-t border-slate-100">
+              <div className="flex justify-center space-x-6">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" 
+                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors">
+                  <Github size={24} />
                 </a>
-                <a
-                  href="https://linkedin.com/in/yourusername"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-slate-600"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="h-5 w-5" />
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors">
+                  <Linkedin size={24} />
                 </a>
-                <a
-                  href="mailto:your.email@example.com"
-                  className="text-slate-400 hover:text-slate-600"
-                  aria-label="Email"
-                >
-                  <Mail className="h-5 w-5" />
+                <a href="mailto:contact@example.com" 
+                  className="p-2 text-slate-600 hover:text-blue-600 transition-colors">
+                  <Mail size={24} />
                 </a>
               </div>
             </div>
@@ -257,54 +176,52 @@ const OptimizedLayout = ({ children }: LayoutProps) => {
         </div>
       </header>
 
-      <main className={`flex-1 transition-opacity duration-300 ${
-        mobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
-      }`}>
+      <main className="flex-1">
         {children}
       </main>
 
       <footer className="border-t py-8 bg-white/80 border-slate-200">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0 flex items-center gap-2">
-              <img 
-                src="/profileimages/2pallogo.png" 
-                alt="Logo" 
-                className="h-6 w-6 rounded-full object-cover border border-blue-200"
-                width={24}
-                height={24}
-                loading="lazy"
-              />
-              <span className="font-fira font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 text-lg">
-                MS.dev
-              </span>
-              <p className="text-sm text-slate-600 mt-1 ml-4">
-                &copy; {new Date().getFullYear()} Misheck Serima. All rights reserved.
-              </p>
+            <div className="flex items-center space-x-2 mb-4 md:mb-0">
+              <img
+                src="/profileimages/2pallogo.png"
+                alt="Logo"
+                className="h-8 w-8 rounded-full object-cover border-2 border-blue-200"
+                width={32}
+                height={32} />
+              <span className="text-sm font-medium text-slate-700"> {new Date().getFullYear()} MS.dev</span>
             </div>
-            
-            <div className="flex space-x-6 items-center">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="Github">
-                <Github className="w-5 h-5 hover:text-blue-600 transition-colors" />
+            <div className="flex space-x-4">
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-500 hover:text-slate-700 transition-colors"
+                aria-label="GitHub"
+              >
+                <Github className="h-5 w-5" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <Linkedin className="w-5 h-5 hover:text-blue-600 transition-colors" />
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-500 hover:text-slate-700 transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-5 w-5" />
               </a>
-              <a href="mailto:contact@example.com" aria-label="Email">
-                <Mail className="w-5 h-5 hover:text-blue-600 transition-colors" />
+              <a
+                href="mailto:contact@example.com"
+                className="text-slate-500 hover:text-slate-700 transition-colors"
+                aria-label="Email"
+              >
+                <Mail className="h-5 w-5" />
               </a>
             </div>
           </div>
         </div>
       </footer>
-
-      <AdminLogin 
-        isOpen={showAdminLogin}
-        onClose={() => setShowAdminLogin(false)}
-        onSuccess={handleAdminLoginSuccess}
-      />
     </div>
   );
-};
-
-export default OptimizedLayout;
+}
