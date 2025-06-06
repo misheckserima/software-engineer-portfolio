@@ -54,7 +54,7 @@ const Projects = () => {
       image: "/projectpics/aistockwise.png",
       tags: ["Python", "React", "Node.js", "MongoDB", "AI/ML"],
       category: "Web Development",
-      liveUrl: "https://ai-stock-management.vercel.app",
+      liveUrl: "https://ai-stock-management-git-master-misheckserimas-projects.vercel.app",
       githubUrl: "https://github.com/misheckserima/ai-stock-management"
     },
     {
