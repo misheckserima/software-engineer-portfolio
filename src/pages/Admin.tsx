@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import OptimizedLayout from '@/components/OptimizedLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Users, Globe, MapPin, Calendar, TrendingUp } from 'lucide-react';
+import { Users, Globe, MapPin, Calendar, TrendingUp, Layout } from 'lucide-react';
 
 interface VisitorData {
   id: string;

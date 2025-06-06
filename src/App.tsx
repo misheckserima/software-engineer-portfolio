@@ -32,7 +32,7 @@ const queryClient = new QueryClient({
 // Loading component for lazy loading
 const LoadingFallback = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-50">
-    <div className="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+    <div className="w-12 h-12 min-w-[3rem] min-h-[3rem] border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
   </div>
 );
 
