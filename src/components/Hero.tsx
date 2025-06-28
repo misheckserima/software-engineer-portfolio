@@ -1,8 +1,9 @@
-import { ArrowRight, Code, Cpu, Database, Code2, Server, Terminal, GitBranch } from 'lucide-react';
+import { ArrowRight, Code, Cpu, Database, Code2, Server, Terminal, GitBranch, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './Hero.css';
+import AIChat from './AIChat';
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -195,7 +196,7 @@ const Hero = () => {
           </div>
           
           {/* Profile image section */}
-          <div className="md:w-1/2 mt-10 md:mt-0 flex justify-center">
+          <div className="md:w-1/2 mt-10 md:mt-0 flex flex-col items-center">
             <div 
               className={`relative transition-all duration-1000 delay-300 transform ${
                 isLoaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
@@ -233,9 +234,30 @@ const Hero = () => {
                 <div className="font-fira-mono text-2xl">{"]"}</div>
               </div>
             </div>
+            
+            {/* Chat with AI Button */}
+            <div 
+              className={`mt-6 transition-all duration-700 delay-1000 transform ${
+                isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-[20px] opacity-0'
+              }`}
+            >
+              <Button 
+                onClick={() => {
+                  const chatButton = document.querySelector('[data-chat-trigger]') as HTMLElement;
+                  if (chatButton) chatButton.click();
+                }}
+                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white border-none shadow-lg shadow-green-600/20 px-6 py-3 rounded-full"
+              >
+                <MessageCircle className="mr-2 h-5 w-5" />
+                Chat with AI about Misheck
+              </Button>
+            </div>
           </div>
         </div>
       </div>
+      
+      {/* AI Chat Component */}
+      <AIChat />
       
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px]">
