@@ -606,25 +606,69 @@ His adaptability and passion for technology make him suitable for various develo
     );
   }
 
-  if (isCollapsed) {
-    return (
-      <div className="fixed bottom-6 right-6 z-50 w-96">
-        <Card className="shadow-2xl border-0 bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl overflow-hidden animate-glow">
-          <CardHeader className="pb-3 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white rounded-t-lg relative overflow-hidden">
+  // Fullscreen overlay and chat
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Overlay */}
+      <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-2xl transition-all duration-300" style={{ zIndex: 49 }} />
+      {/* Chat Card */}
+      <div className="relative w-full h-full sm:max-w-2xl sm:h-[90vh] mx-auto flex flex-col justify-center items-center z-50">
+        <Card className="w-full h-full flex flex-col shadow-2xl border-0 bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl overflow-hidden animate-glow">
+          {/* Tech Circuit Background */}
+          <div className="tech-circuit">
+            <div className="absolute top-0 left-0 w-full h-full">
+              {[...Array(8)].map((_, i) => (
+                <div 
+                  key={i}
+                  className="absolute bg-gradient-to-r from-blue-500/60 via-purple-500/60 to-cyan-500/60 animate-pulse"
+                  style={{
+                    height: '1px',
+                    width: `${30 + Math.random() * 40}%`,
+                    top: `${Math.random() * 100}%`,
+                    left: `${Math.random() * 100}%`,
+                    opacity: 0.6 + Math.random() * 0.4,
+                    animationDelay: `${Math.random() * 2}s`,
+                    animationDuration: `${2 + Math.random() * 2}s`
+                  }}
+                />
+              ))}
+              {[...Array(6)].map((_, i) => (
+                <div 
+                  key={i + 100}
+                  className="absolute rounded-full bg-gradient-to-r from-blue-400 to-purple-400 animate-ping"
+                  style={{
+                    height: '4px',
+                    width: '4px',
+                    top: `${Math.random() * 100}%`,
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 3}s`
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+
+          <CardHeader className="pb-3 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white rounded-t-lg relative overflow-hidden flex-shrink-0">
+            {/* Animated background elements */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-600/20 animate-pulse"></div>
+            <div className="absolute top-0 left-0 w-full h-full">
+              <div className="absolute top-2 right-2 w-8 h-8 border-2 border-white/30 rounded-full animate-spin"></div>
+              <div className="absolute bottom-2 left-2 w-6 h-6 border-2 border-white/20 rounded-full animate-ping"></div>
+            </div>
             <div className="flex items-center justify-between relative z-10">
               <div className="flex items-center gap-3">
                 <div className="relative profile-pic-glow">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 p-0.5">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 p-0.5">
                     <img 
                       src="/misheck.png" 
                       alt="AI Assistant" 
                       className="w-full h-full rounded-full object-cover"
                     />
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border border-white animate-pulse"></div>
                 </div>
                 <div>
-                  <CardTitle className="text-sm font-semibold gradient-text">Ask About {misheckProfile.name}</CardTitle>
+                  <CardTitle className="text-lg font-semibold gradient-text">Ask About {misheckProfile.name}</CardTitle>
                   <p className="text-xs text-blue-100">AI Assistant • Online</p>
                 </div>
               </div>
@@ -633,170 +677,136 @@ His adaptability and passion for technology make him suitable for various develo
                   variant="ghost"
                   size="sm"
                   onClick={toggleCollapse}
-                  className="text-white hover:bg-white/20 rounded-full w-8 h-8 p-0 interactive-hover"
+                  className="text-white hover:bg-white/20 rounded-full w-8 h-8 p-0 interactive-hover border border-white/20 hover:border-white/40"
+                  title="Minimize chat"
                 >
-                  <Maximize2 className="h-4 w-4" />
+                  <ChevronDown className="h-4 w-4" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsOpen(false)}
                   className="text-white hover:bg-red-500/20 hover:text-red-300 rounded-full w-8 h-8 p-0 interactive-hover border border-white/20 hover:border-red-400/50 font-bold text-lg"
+                  title="Close chat"
                 >
                   ✕
                 </Button>
               </div>
             </div>
           </CardHeader>
-        </Card>
-      </div>
-    );
-  }
-
-  return (
-    <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] animate-slide-in">
-      <Card className="w-full h-full shadow-2xl border-0 bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl overflow-hidden animate-glow">
-        {/* Tech Circuit Background */}
-        <div className="tech-circuit">
-          <div className="absolute top-0 left-0 w-full h-full">
-            {[...Array(8)].map((_, i) => (
-              <div 
-                key={i}
-                className="absolute bg-gradient-to-r from-blue-500/60 via-purple-500/60 to-cyan-500/60 animate-pulse"
-                style={{
-                  height: '1px',
-                  width: `${30 + Math.random() * 40}%`,
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  opacity: 0.6 + Math.random() * 0.4,
-                  animationDelay: `${Math.random() * 2}s`,
-                  animationDuration: `${2 + Math.random() * 2}s`
-                }}
-              />
-            ))}
-            
-            {[...Array(6)].map((_, i) => (
-              <div 
-                key={i + 100}
-                className="absolute rounded-full bg-gradient-to-r from-blue-400 to-purple-400 animate-ping"
-                style={{
-                  height: '4px',
-                  width: '4px',
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 3}s`
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
-        <CardHeader className="pb-3 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white rounded-t-lg relative overflow-hidden flex-shrink-0">
-          {/* Animated background elements */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-600/20 animate-pulse"></div>
-          <div className="absolute top-0 left-0 w-full h-full">
-            <div className="absolute top-2 right-2 w-8 h-8 border-2 border-white/30 rounded-full animate-spin"></div>
-            <div className="absolute bottom-2 left-2 w-6 h-6 border-2 border-white/20 rounded-full animate-ping"></div>
-          </div>
-          
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="relative profile-pic-glow">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 p-0.5">
-                  <img 
-                    src="/misheck.png" 
-                    alt="AI Assistant" 
-                    className="w-full h-full rounded-full object-cover"
-                  />
+          <CardContent className="p-0 h-full flex flex-col relative overflow-hidden">
+            {/* Quick Questions */}
+            <div className="p-4 border-b border-slate-700/50 bg-gradient-to-r from-slate-800/50 to-slate-900/50 flex-shrink-0">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-sm text-slate-300 font-medium">Quick questions about {misheckProfile.name}:</p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsOpen(false)}
+                  className="text-slate-400 hover:text-red-400 hover:bg-red-500/20 rounded-full w-7 h-7 p-0 interactive-hover"
+                  title="Close chat"
+                >
+                  ✕
+                </Button>
+              </div>
+              <ScrollArea className="h-40">
+                <div className="space-y-2 pr-2">
+                  {sampleQuestions.slice(0, 6).map((question) => (
+                    <div
+                      key={question.id}
+                      className="cursor-pointer p-3 rounded-lg bg-slate-700/30 border border-slate-600/30 hover:bg-slate-600/40 hover:border-slate-500/50 transition-all duration-200 hover:scale-[1.01] interactive-hover group"
+                      onClick={() => {
+                        handleSampleQuestion(question.text);
+                        handleSendMessage();
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 flex items-center justify-center group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-200">
+                          {question.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-slate-200 group-hover:text-white transition-colors duration-200 leading-tight">
+                            {question.text}
+                          </p>
+                          <p className="text-xs text-slate-400 mt-1">
+                            {question.category}
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <Send className="h-4 w-4 text-blue-400" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
-              </div>
-              <div>
-                <CardTitle className="text-lg font-semibold gradient-text">Ask About {misheckProfile.name}</CardTitle>
-                <p className="text-xs text-blue-100">AI Assistant • Online</p>
-              </div>
+              </ScrollArea>
             </div>
-            <div className="flex gap-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleCollapse}
-                className="text-white hover:bg-white/20 rounded-full w-8 h-8 p-0 interactive-hover border border-white/20 hover:border-white/40"
-                title="Minimize chat"
-              >
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-red-500/20 hover:text-red-300 rounded-full w-8 h-8 p-0 interactive-hover border border-white/20 hover:border-red-400/50 font-bold text-lg"
-                title="Close chat"
-              >
-                ✕
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        
-        <CardContent className="p-0 h-full flex flex-col relative">
-          {/* Quick Questions */}
-          <div className="p-4 border-b border-slate-700/50 bg-gradient-to-r from-slate-800/50 to-slate-900/50 flex-shrink-0">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-slate-300 font-medium">Quick questions about {misheckProfile.name}:</p>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsOpen(false)}
-                className="text-slate-400 hover:text-red-400 hover:bg-red-500/20 rounded-full w-7 h-7 p-0 interactive-hover"
-                title="Close chat"
-              >
-                ✕
-              </Button>
-            </div>
-            <ScrollArea className="h-40">
-              <div className="space-y-2 pr-2">
-                {sampleQuestions.slice(0, 6).map((question) => (
+            {/* Messages */}
+            <ScrollArea className="flex-1 p-4 bg-gradient-to-b from-slate-800/20 to-slate-900/20 chat-scrollbar overflow-y-auto">
+              <div className="space-y-4">
+                {messages.map((message) => (
                   <div
-                    key={question.id}
-                    className="cursor-pointer p-3 rounded-lg bg-slate-700/30 border border-slate-600/30 hover:bg-slate-600/40 hover:border-slate-500/50 transition-all duration-200 hover:scale-[1.01] interactive-hover group"
-                    onClick={() => {
-                      handleSampleQuestion(question.text);
-                      handleSendMessage();
-                    }}
+                    key={message.id}
+                    className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} animate-slide-in`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="flex-shrink-0 w-7 h-7 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 flex items-center justify-center group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-200">
-                        {question.icon}
+                    <div className="flex items-end gap-3 max-w-[85%]">
+                      {message.sender === 'ai' && (
+                        <div className="relative flex-shrink-0 profile-pic-glow">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 p-0.5">
+                            <img 
+                              src="/misheck.png" 
+                              alt="AI Assistant" 
+                              className="w-full h-full rounded-full object-cover"
+                            />
+                          </div>
+                          <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-slate-800 animate-pulse"></div>
+                        </div>
+                      )}
+                      <div
+                        className={`rounded-xl p-4 message-bubble ${
+                          message.sender === 'user'
+                            ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                            : 'bg-slate-700/80 text-slate-100 shadow-lg border border-slate-600/50'
+                        }`}
+                      >
+                        <div className="whitespace-pre-wrap text-sm leading-relaxed">
+                          {message.displayText || message.text}
+                          {message.isTyping && (
+                            <span className="inline-block w-2 h-4 bg-blue-400 ml-1 typing-cursor"></span>
+                          )}
+                        </div>
+                        {message.sender === 'ai' && (
+                          <div className="flex items-center gap-2 mt-3 pt-2 border-t border-slate-600/30">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => speakResponse(message.text)}
+                              disabled={isSpeaking}
+                              className="text-slate-400 hover:text-blue-400 p-1 h-6 w-6 interactive-hover"
+                            >
+                              {isSpeaking ? (
+                                <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+                              ) : (
+                                <Volume2 className="h-4 w-4" />
+                              )}
+                            </Button>
+                            <span className="text-xs text-slate-500">
+                              {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-slate-200 group-hover:text-white transition-colors duration-200 leading-tight">
-                          {question.text}
-                        </p>
-                        <p className="text-xs text-slate-400 mt-1">
-                          {question.category}
-                        </p>
-                      </div>
-                      <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <Send className="h-4 w-4 text-blue-400" />
-                      </div>
+                      {message.sender === 'user' && (
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-400 to-blue-400 flex items-center justify-center flex-shrink-0 profile-pic-glow">
+                          <User className="h-4 w-4 text-white" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
-              </div>
-            </ScrollArea>
-          </div>
-
-          {/* Messages */}
-          <ScrollArea className="flex-1 p-4 bg-gradient-to-b from-slate-800/20 to-slate-900/20 chat-scrollbar">
-            <div className="space-y-4">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} animate-slide-in`}
-                >
-                  <div className="flex items-end gap-3 max-w-[85%]">
-                    {message.sender === 'ai' && (
+                {isLoading && (
+                  <div className="flex justify-start animate-slide-in">
+                    <div className="flex items-end gap-3">
                       <div className="relative flex-shrink-0 profile-pic-glow">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 p-0.5">
                           <img 
@@ -807,128 +817,72 @@ His adaptability and passion for technology make him suitable for various develo
                         </div>
                         <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-slate-800 animate-pulse"></div>
                       </div>
-                    )}
-                    <div
-                      className={`rounded-xl p-4 message-bubble ${
-                        message.sender === 'user'
-                          ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                          : 'bg-slate-700/80 text-slate-100 shadow-lg border border-slate-600/50'
-                      }`}
-                    >
-                      <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                        {message.displayText || message.text}
-                        {message.isTyping && (
-                          <span className="inline-block w-2 h-4 bg-blue-400 ml-1 typing-cursor"></span>
-                        )}
-                      </div>
-                      {message.sender === 'ai' && (
-                        <div className="flex items-center gap-2 mt-3 pt-2 border-t border-slate-600/30">
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => speakResponse(message.text)}
-                            disabled={isSpeaking}
-                            className="text-slate-400 hover:text-blue-400 p-1 h-6 w-6 interactive-hover"
-                          >
-                            {isSpeaking ? (
-                              <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
-                            ) : (
-                              <Volume2 className="h-4 w-4" />
-                            )}
-                          </Button>
-                          <span className="text-xs text-slate-500">
-                            {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </span>
+                      <div className="bg-slate-700/80 rounded-xl p-4 shadow-lg border border-slate-600/50">
+                        <div className="flex items-center gap-2">
+                          <div className="loading-dots">
+                            <div className="bg-blue-400"></div>
+                            <div className="bg-purple-400"></div>
+                            <div className="bg-cyan-400"></div>
+                          </div>
+                          <span className="text-sm text-slate-400">AI is thinking...</span>
                         </div>
-                      )}
-                    </div>
-                    {message.sender === 'user' && (
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-400 to-blue-400 flex items-center justify-center flex-shrink-0 profile-pic-glow">
-                        <User className="h-4 w-4 text-white" />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex justify-start animate-slide-in">
-                  <div className="flex items-end gap-3">
-                    <div className="relative flex-shrink-0 profile-pic-glow">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 p-0.5">
-                        <img 
-                          src="/misheck.png" 
-                          alt="AI Assistant" 
-                          className="w-full h-full rounded-full object-cover"
-                        />
-                      </div>
-                      <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-slate-800 animate-pulse"></div>
-                    </div>
-                    <div className="bg-slate-700/80 rounded-xl p-4 shadow-lg border border-slate-600/50">
-                      <div className="flex items-center gap-2">
-                        <div className="loading-dots">
-                          <div className="bg-blue-400"></div>
-                          <div className="bg-purple-400"></div>
-                          <div className="bg-cyan-400"></div>
-                        </div>
-                        <span className="text-sm text-slate-400">AI is thinking...</span>
                       </div>
                     </div>
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-          </ScrollArea>
-
-          {/* Input - Always Visible */}
-          <div className="p-4 border-t border-slate-700/50 bg-gradient-to-r from-slate-800/80 to-slate-900/80 backdrop-blur-sm flex-shrink-0">
-            <div className="flex gap-3 items-center">
-              <div className="flex-1 relative">
-                <Input
-                  ref={inputRef}
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder={`Ask about ${misheckProfile.name}...`}
-                  className="w-full bg-white/10 border-2 border-slate-600/50 text-white placeholder:text-slate-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-lg px-4 py-3 text-sm transition-all duration-200 hover:border-slate-500/70"
-                  disabled={isLoading}
-                />
-                {isListening && (
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 voice-indicator">
-                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                   </div>
                 )}
+                <div ref={messagesEndRef} />
               </div>
-              <Button
-                onClick={isListening ? stopListening : startListening}
-                disabled={isLoading}
-                size="sm"
-                variant="ghost"
-                className={`rounded-lg w-10 h-10 p-0 interactive-hover border-2 ${
-                  isListening 
-                    ? 'bg-red-500/20 text-red-400 border-red-500/50 hover:bg-red-500/30 voice-indicator' 
-                    : 'bg-slate-700/50 text-slate-300 border-slate-600/50 hover:bg-slate-600/50 hover:text-blue-400 hover:border-blue-400/50'
-                }`}
-              >
-                {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-              </Button>
-              <Button
-                onClick={handleSendMessage}
-                disabled={!inputValue.trim() || isLoading}
-                size="sm"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg w-10 h-10 p-0 shadow-lg interactive-hover border-2 border-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
+            </ScrollArea>
+            {/* Input - Always Visible */}
+            <div className="p-4 border-t border-slate-700/50 bg-gradient-to-r from-slate-800/80 to-slate-900/80 backdrop-blur-sm flex-shrink-0">
+              <div className="flex gap-3 items-center">
+                <div className="flex-1 relative">
+                  <Input
+                    ref={inputRef}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder={`Ask about ${misheckProfile.name}...`}
+                    className="w-full bg-white/10 border-2 border-slate-600/50 text-white placeholder:text-slate-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-lg px-4 py-3 text-sm transition-all duration-200 hover:border-slate-500/70"
+                    disabled={isLoading}
+                  />
+                  {isListening && (
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 voice-indicator">
+                      <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    </div>
+                  )}
+                </div>
+                <Button
+                  onClick={isListening ? stopListening : startListening}
+                  disabled={isLoading}
+                  size="sm"
+                  variant="ghost"
+                  className={`rounded-lg w-10 h-10 p-0 interactive-hover border-2 ${
+                    isListening 
+                      ? 'bg-red-500/20 text-red-400 border-red-500/50 hover:bg-red-500/30 voice-indicator' 
+                      : 'bg-slate-700/50 text-slate-300 border-slate-600/50 hover:bg-slate-600/50 hover:text-blue-400 hover:border-blue-400/50'
+                  }`}
+                >
+                  {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                </Button>
+                <Button
+                  onClick={handleSendMessage}
+                  disabled={!inputValue.trim() || isLoading}
+                  size="sm"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg w-10 h-10 p-0 shadow-lg interactive-hover border-2 border-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+              {inputValue.trim() && (
+                <div className="mt-2 text-xs text-slate-400">
+                  Press Enter to send • {inputValue.length} characters
+                </div>
+              )}
             </div>
-            {inputValue.trim() && (
-              <div className="mt-2 text-xs text-slate-400">
-                Press Enter to send • {inputValue.length} characters
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
