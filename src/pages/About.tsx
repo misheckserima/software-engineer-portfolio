@@ -6,7 +6,7 @@ import { Code, Database, File, Github } from "lucide-react";
 const About = () => {
   const educationTimeline = [
     {
-      year: "2022 - Present",
+      year: "2023 - Present",
       title: "HBSc in Software Engineering",
       institution: "Bindura University of Science Education"
     },
